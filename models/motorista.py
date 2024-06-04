@@ -1,4 +1,6 @@
 # models
+from models.rotas import *
+from models.aluno import buscar_aluno
 from models.instituicao import listar_instituicoes
 
 # utils
@@ -11,7 +13,7 @@ base_dir = os.path.join(os.path.dirname(__file__), '../data')
 
 json_motoristas = os.path.join(base_dir, 'motoristas.json')
 
-class cor:
+class Cor:
   VERMELHO = '\033[91m'
   AMARELO = '\033[93m'
   CIANO = '\033[96m'
@@ -28,12 +30,12 @@ def update_json(response):
 def cadastrar_motorista(user):
   motoristas = read_json()
 
-  nome = input("DIGITE O NOME:\n>>>")
-  genero = input("DIGITE O GÊNERO:\n>>>")
-  cpf = input("DIGITE SEU CPF:\n>>>")
-  nascimento = input("DIGITE A DATA DE NASCIMENTO NO FORMATO DD/MM/AAAA:\n>>>")
-  telefone = input("DIGITE O NÚMERO DE TELEFONE:\n>>>")
-  endereco = input("DIGITE O ENDEREÇO:\n>>>")
+  nome = input("DIGITE O NOME:\n>>> ")
+  genero = input("DIGITE O GÊNERO:\n>>> ")
+  cpf = input("DIGITE SEU CPF:\n>>> ")
+  nascimento = input("DIGITE A DATA DE NASCIMENTO NO FORMATO DD/MM/AAAA:\n>>> ")
+  telefone = input("DIGITE O NÚMERO DE TELEFONE:\n>>> ")
+  endereco = input("DIGITE O ENDEREÇO:\n>>> ")
 
   if not user:
     email = input("DIGITE O EMAIL:\n>>> ")
@@ -64,7 +66,7 @@ def listar_motoristas():
       print("*" * 50)
       print("=" * 50)
   else:
-    print(cor.AMARELO + "NENENHUM MOTORISTA CADASTRADO." + cor.RESET)
+    print(Cor.AMARELO + "NENENHUM MOTORISTA CADASTRADO." + Cor.RESET)
 
 def buscar_motorista(id):
   found = False
@@ -76,37 +78,45 @@ def buscar_motorista(id):
 
       print(f"NOME: {motorista['nome']}, IDADE: {motorista['idade']}, CPF: {motorista['cpf']}, NASCIMENTO: {motorista['nascimento']}, TELEFONE: {motorista['telefone']}, ENDEREÇO: {motorista['endereco']}, EMAIL: {motorista['email']}")
   if not found:
-    print(cor.AMARELO + "NENHUM MOTORISTA ENCONTRADO." + cor.RESET)
+    print(Cor.AMARELO + "NENHUM MOTORISTA ENCONTRADO." + Cor.RESET)
 
-def funcionalidades_motoristas():
-  go_on = True
-
-  while go_on:
+def funcionalidades_motoristas(user):
+  while True:
     print("\nFUNCIONALIDADES DO PERFIL MOTORISTA:\n")
-    print("1 - LISTAR INSTITUIÇÕES DE ENSINO")
-    print("2 - CADASTRAR ROTA")
-    print("3 - LISTAR ROTAS")
-    print("4 - EXCLUIR ROTA")
-    print("5 - BUSCAR ALUNO")
+    print("1 - CADASTRAR ROTA")
+    print("2 - LISTAR ROTAS")
+    print("3 - BUSCAR ROTA")
+    print("4 - EDITAR ROTA")
+    print("5 - EXCLUIR ROTA")
     print("6 - SAIR")
 
     option = input("\n>>> ")
 
-    if option == '1': listar_instituicoes()
+    if option == '1':
+      cadastrar_rota(user)
 
-    elif option == '2': print("to do")
+    elif option == '2':
+      listar_rotas()
 
-    elif option == '3': print("to do")
+    elif option == '3':
+      id_da_rota = input("QUAL O ID DA ROTA QUE VOCÊ DESEJA BUSCAR?\n>>> ")
 
-    elif option == '4': print("to do")
+      buscar_rota(id_da_rota)
 
-    elif option == '5': print("to do")
+    elif option == '4':
+      id_da_rota = input("QUAL O ID DA ROTA QUE VOCÊ DESEJA EDITAR?\n>>> ")
+
+      # editar_rota(id_da_rota)
+
+    elif option == '5':
+      id_da_rota = input("QUAL O ID DA ROTA QUE VOCÊ DESEJA DELETAR?\n>>> ")
+
+      excluir_rota(id_da_rota)
 
     elif option == '6':
-      go_on = False
-
       print("ATÉ MAIS!👋🏻")
-      print(cor.CIANO + "USUÁRIO FEZ LOGOUT." + cor.RESET)
+      print(Cor.CIANO + "USUÁRIO FEZ LOGOUT." + Cor.RESET)
 
+      break
     else:
-      print(cor.VERMELHO + "OPÇÃO INVÁLIDA" + cor.RESET)
+      print(Cor.VERMELHO + "OPÇÃO INVÁLIDA" + Cor.RESET)

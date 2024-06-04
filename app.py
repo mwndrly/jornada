@@ -9,86 +9,103 @@ from models.instituicao import *
 import json
 import os
 
-# Define o diretório base para os arquivos JSON
-base_dir = os.path.join(os.path.dirname(__file__), 'data')
+# constants
+BASE_DIR = os.path.join(os.path.dirname(__file__), 'data')
+JSON_FILES = {
+  'rotas': os.path.join(BASE_DIR, 'rotas.json'),
+  'alunos': os.path.join(BASE_DIR, 'alunos.json'),
+  'usuarios': os.path.join(BASE_DIR, 'usuarios.json'),
+  'motoristas': os.path.join(BASE_DIR, 'motoristas.json'),
+  'responsaveis': os.path.join(BASE_DIR, 'responsaveis.json'),
+  'instituicoes': os.path.join(BASE_DIR, 'instituicoes.json')
+}
 
-# Garante que o diretório 'data' exista
-os.makedirs(base_dir, exist_ok=True)
-
-json_alunos = os.path.join(base_dir, 'alunos.json')
-json_usuarios = os.path.join(base_dir, 'usuarios.json')
-json_motoristas = os.path.join(base_dir, 'motoristas.json')
-json_responsaveis = os.path.join(base_dir, 'responsaveis.json')
-json_instituicoes = os.path.join(base_dir, 'instituicoes.json')
-
-class cor:
+class Cor:
   VERMELHO = '\033[91m'
   VERDE = '\033[92m'
-  AMARELO = '\033[93m'
-  AZUL = '\033[94m'
-  MAGENTA = '\033[95m'
   CIANO = '\033[96m'
   RESET = '\033[0m'
 
-def start_app():
-  load_files()
-  login()
+def garantir_diretorio(diretorio):
+  os.makedirs(diretorio, exist_ok=True)
 
-def load_files():
-  for file in [json_usuarios, json_alunos, json_motoristas, json_responsaveis, json_instituicoes]:
-    if not os.path.isfile(file):
-      with open(file, 'w') as f:
+def inicializar_arquivos_json():
+  for files in JSON_FILES.values():
+    if not os.path.isfile(files):
+      with open(files, 'w') as f:
         json.dump([], f)
 
-def login():
-  print(cor.CIANO + "=" * 55 + cor.RESET)
-  print(cor.VERMELHO + " ---->>> BEM VINDO AO JORNADA <<<---- ")
+def iniciar_aplicacao():
+  garantir_diretorio(BASE_DIR)
+  inicializar_arquivos_json()
+
+  while True:
+    exibir_menu_inicial()
+
+    opcao = input("\n>>> ")
+
+    if opcao == '1':
+      login()
+    elif opcao == '2':
+      registrar_usuario()
+    else:
+      print(Cor.VERMELHO + "OPÇÃO INVÁLIDA" + Cor.RESET)
+
+def exibir_menu_inicial():
+  print(Cor.CIANO + "=" * 55)
+  print(" ---->>> BEM VINDO AO JORNADA <<<---- ")
   print("SELECIONE O QUE VOCÊ DESEJA:")
   print("1 - ENTRAR")
-  print("2 - CADASTRAR CONTA ")
-  print(cor.CIANO + "=" * 55 + cor.RESET)
+  print("2 - CADASTRAR CONTA")
+  print("=" * 55 + Cor.RESET)
 
-  option = input("\n>>> ")
+def login():
+  usuario_autenticado = autenticar_usuario()
 
-  if option == '1':
-    autenticar_usuario()
-  elif option == '2':
-    registrar_usuario()
+  if usuario_autenticado:
+    print(Cor.VERDE + "Autenticação bem-sucedida!" + Cor.RESET)
+
+    listar_funcionalidades(usuario_autenticado)
   else:
-    print(cor.VERMELHO + "OPÇÃO INVÁLIDA" + cor.RESET)
-    login()
+    print(Cor.VERMELHO + "Autenticação falhou. Login ou senha incorretos." + Cor.RESET)
 
 def registrar_usuario():
   print("\nMUITO BEM. VAMOS LÁ:")
   print("\nVOCÊ DESEJA CRIAR UMA CONTA COMO:")
   print("1 - MOTORISTA")
-  print("2 - RESPONSÁVEL ")
-  print("3 - INSTITUIÇÃO DE ENSINO ")
+  print("2 - RESPONSÁVEL")
+  print("3 - INSTITUIÇÃO DE ENSINO")
 
-  account_type = input("\n>>> ")
+  tipo_conta = input("\n>>> ")
 
-  if account_type == '1':
-    user = cadastrar_usuario("motorista")
-
-    cadastrar_motorista(user)
-    print(cor.VERDE + "\nMOTORISTA ADICIONADO COM SUCESSO!" + cor.RESET)
-    funcionalidades_motoristas()
-
-  elif account_type == '2':
-    user = cadastrar_usuario("responsavel")
-
-    cadastrar_responsavel(user)
-    print(cor.VERDE + "\nRESPONSÁVEL ADICIONADO COM SUCESSO!" + cor.RESET)
-    funcionalidades_responsaveis()
-
-  elif account_type == '3':
-    user = cadastrar_usuario("instituicao")
-
-    cadastrar_instituicao(user)
-    print(cor.VERDE + "\nINSTITUIÇÃO ADICIONADA COM SUCESSO!" + cor.RESET)
-    funcionalidades_instituicoes()
-
+  if tipo_conta in ['1', '2', '3']:
+    criar_conta(tipo_conta)
   else:
-    print(cor.VERMELHO + "OPÇÃO INVÁLIDA" + cor.RESET)
+    print(Cor.VERMELHO + "OPÇÃO INVÁLIDA" + Cor.RESET)
 
-start_app()
+def criar_conta(tipo_conta):
+  tipos_conta = {
+    '1': ('motorista', cadastrar_motorista, funcionalidades_motoristas),
+    '2': ('responsavel', cadastrar_responsavel, funcionalidades_responsaveis),
+    '3': ('instituicao', cadastrar_instituicao, funcionalidades_instituicoes)
+  }
+
+  tipo, cadastro_de_conta, funcionalidades_da_conta = tipos_conta[tipo_conta]
+
+  usuario = cadastrar_usuario(tipo)
+
+  cadastro_de_conta(usuario)
+  print(Cor.VERDE + f"\n{tipo.upper()} ADICIONADO COM SUCESSO!" + Cor.RESET)
+  funcionalidades_da_conta(usuario)
+
+def listar_funcionalidades(usuario):
+  tipos_conta = {
+    'motorista': (funcionalidades_motoristas),
+    'responsavel': (funcionalidades_responsaveis),
+    'instituicao': (funcionalidades_instituicoes)
+  }
+  funcionalidades_da_conta = tipos_conta[usuario['tipo']]
+
+  funcionalidades_da_conta(usuario)
+
+iniciar_aplicacao()

@@ -5,7 +5,7 @@
 import os
 import json
 
-class cor:
+class Cor:
   VERMELHO = '\033[91m'
   AMARELO = '\033[93m'
   CIANO = '\033[96m'
@@ -52,7 +52,7 @@ def listar_instituicoes():
       print("*" * 50)
       print("=" * 50)
   else:
-    print(cor.AMARELO + "NENHUMA INSTITUIÇÃO CADASTRADA." + cor.RESET)
+    print(Cor.AMARELO + "NENHUMA INSTITUIÇÃO CADASTRADA." + Cor.RESET)
 
 def funcionalidades_instituicoes():
   go_on = True
@@ -73,7 +73,7 @@ def funcionalidades_instituicoes():
       go_on = False
 
       print("ATÉ MAIS!👋🏻")
-      print(cor.CIANO + "USUÁRIO FEZ LOGOUT." + cor.RESET)
+      print(Cor.CIANO + "USUÁRIO FEZ LOGOUT." + Cor.RESET)
 
     else:
-      print(cor.VERMELHO + "OPÇÃO INVÁLIDA" + cor.RESET)
+      print(Cor.VERMELHO + "OPÇÃO INVÁLIDA" + Cor.RESET)
