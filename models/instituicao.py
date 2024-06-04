@@ -1,5 +1,15 @@
+# models
+# from models.motorista import listar_motoristas
+
+# utils
 import os
 import json
+
+class cor:
+  VERMELHO = '\033[91m'
+  AMARELO = '\033[93m'
+  CIANO = '\033[96m'
+  RESET = '\033[0m'
 
 base_dir = os.path.join(os.path.dirname(__file__), '../data')
 
@@ -13,25 +23,57 @@ def update_json(response):
   with open(json_instituicoes, 'w') as f:
     json.dump(response, f, indent=2)
 
-def cadastrar_instituicao():
+def cadastrar_instituicao(user):
   instituicoes = read_json()
 
-  nome = input("DIGITE O NOME:\n>>> ")
-  idade = input("DIGITE A IDADE:\n>>> ")
-  cpf = input("DIGITE SEU CPF:\n>>> ")
-  nascimento = input("DIGITE O DIA DE SEU NASCIMENTO:\n>>> ")
-  telefone = input("DIGITE SEU NÚMERO DE TELEFONE:\n>>> ")
-  endereco = input("DIGITE SEU ENDEREÇO:\n>>> ")
-  email = input("DIGITE SEU EMAIL:\n>>> ")
+  nome = input("DIGITE O NOME DA INSTITUIÇÃO:\n>>> ")
+  cnpj = input("DIGITE O CNPJ:\n>>> ")
+  telefone = input("DIGITE UM TELEFONE PARA CONTATO:\n>>> ")
+  endereco = input("DIGITE O ENDEREÇO:\n>>> ")
 
   instituicoes.append({
-    'cpf': cpf,
     'nome': nome,
-    'idade': idade,
-    'email': email,
+    'cnpj': cnpj,
     'endereco': endereco,
     'telefone': telefone,
-    'nascimento': nascimento,
   })
 
   update_json(instituicoes)
+
+def listar_instituicoes():
+  instituicoes = read_json()
+
+  if instituicoes:
+    print(">>>>>>> LISTA DE INSTITUIÇÕES <<<<<<<<")
+
+    for instituicao in instituicoes:
+      print("*" * 50)
+      print(f"NOME: {instituicao['nome']}, CNPJ: {instituicao['cnpj']}, TELEFONE: {instituicao['telefone']}, ENDEREÇO: {instituicao['endereco']}")
+      print("*" * 50)
+      print("=" * 50)
+  else:
+    print(cor.AMARELO + "NENHUMA INSTITUIÇÃO CADASTRADA." + cor.RESET)
+
+def funcionalidades_instituicoes():
+  go_on = True
+
+  while go_on:
+    print("FUNCIONALIDADES DO PERFIL INSTITUIÇÃO:\n")
+    print("1 - LISTAR MOTORISTAS")
+    print("2 - LISTAR ALUNOS")
+    print("3 - SAIR")
+
+    option = input("\n>>> ")
+
+    if option == '1': print("a")
+
+    elif option == '2': print("to do")
+
+    elif option == '3':
+      go_on = False
+
+      print("ATÉ MAIS!👋🏻")
+      print(cor.CIANO + "USUÁRIO FEZ LOGOUT." + cor.RESET)
+
+    else:
+      print(cor.VERMELHO + "OPÇÃO INVÁLIDA" + cor.RESET)
