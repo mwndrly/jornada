@@ -5,7 +5,7 @@ base_dir = os.path.join(os.path.dirname(__file__), '../data')
 
 json_responsaveis = os.path.join(base_dir, 'responsaveis.json')
 
-class cor:
+class Cor:
   VERMELHO = '\033[91m'
   CIANO = '\033[96m'
   RESET = '\033[0m'
@@ -54,7 +54,7 @@ def listar_responsaveis():
       print("*" * 50)
       print("=" * 50)
   else:
-    print(cor.AMARELO + "NENENHUM RESPONSÁVEL CADASTRADO." + cor.RESET)
+    print(Cor.AMARELO + "NENENHUM RESPONSÁVEL CADASTRADO." + Cor.RESET)
 
 def buscar_responsavel(id):
   found = False
@@ -66,7 +66,7 @@ def buscar_responsavel(id):
 
       print(f"NOME: {responsavel['nome']}, CPF: {responsavel['cpf']}, NASCIMENTO: {responsavel['nascimento']}, TELEFONE: {responsavel['telefone']}, ENDEREÇO: {responsavel['endereco']}, EMAIL: {responsavel['email']}")
   if not found:
-    print(cor.AMARELO + "NENHUM RESPONSAVEL ENCONTRADO." + cor.RESET)
+    print(Cor.AMARELO + "NENHUM RESPONSAVEL ENCONTRADO." + Cor.RESET)
 
 def funcionalidades_responsaveis():
   go_on = True
@@ -98,6 +98,6 @@ def funcionalidades_responsaveis():
       go_on = False
 
       print("ATÉ MAIS!👋🏻")
-      print(cor.CIANO + "USUÁRIO FEZ LOGOUT." + cor.RESET)
+      print(Cor.CIANO + "USUÁRIO FEZ LOGOUT." + Cor.RESET)
     else:
-      print(cor.VERMELHO + "OPÇÃO INVÁLIDA" + cor.RESET)
+      print(Cor.VERMELHO + "OPÇÃO INVÁLIDA" + Cor.RESET)

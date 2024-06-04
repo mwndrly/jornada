@@ -1,72 +1,79 @@
-# models
-from models.motorista import listar_motoristas
-
 # utils
 import os
 import json
+import random
 
-class cor:
-  VERMELHO = '\033[91m'
-  CIANO = '\033[96m'
-  RESET = '\033[0m'
-
+# constants
 base_dir = os.path.join(os.path.dirname(__file__), '../data')
-
 json_alunos = os.path.join(base_dir, 'alunos.json')
 
-def read_json():
+class Cor:
+  AMARELO = '\033[93m'
+  VERDE = '\033[92m'
+  RESET = '\033[0m'
+
+def ler_json():
   with open(json_alunos, 'r') as f:
     return json.load(f)
 
-def update_json(response):
+def atualizar_json(response):
   with open(json_alunos, 'w') as f:
     json.dump(response, f, indent=2)
 
-def cadastrar_aluno():
-  alunos = read_json()
+def cadastrar_aluno(user):
+  alunos = ler_json()
 
   nome = input("DIGITE O NOME:\n>>> ")
-  idade = input("DIGITE A IDADE:\n>>> ")
   cpf = input("DIGITE O CPF:\n>>> ")
   nascimento = input("DIGITE A DATA DE NASCIMENTO NO FORMATO DD/MM/AAAA:\n>>> ")
-  telefone = input("DIGITE O NÚMERO DE TELEFONE:\n>>> ")
   endereco = input("DIGITE O ENDEREÇO:\n>>> ")
-  email = input("DIGITE O EMAIL:\n>>> ")
 
   alunos.append({
-    'cpf': cpf,
+    'id': random.randint(1, 99),
     'nome': nome,
-    'idade': idade,
-    'email': email,
+    'cpf': cpf,
     'endereco': endereco,
-    'telefone': telefone,
     'nascimento': nascimento,
+    'id_do_responsavel': user['id']
   })
 
-  update_json(alunos)
+  atualizar_json(alunos)
 
-def funcionalidades_alunos():
-  go_on = True
+def listar_alunos():
+  alunos = ler_json()
 
-  while go_on:
-    print("\nFUNCIONALIDADES DO PERFIL ALUNO:\n")
-    print("1 - LISTAR MOTORISTAS")
-    print("2 - LISTAR ROTAS")
-    print("3 - SAIR")
+  if alunos:
+    print(">>>>>>> LISTA DE ALUNOS <<<<<<<<")
 
-    option = input("\n>>> ")
+    for aluno in alunos:
+      print("*" * 50)
+      print(f"ID: {aluno['id']}, NOME: {aluno['nome']}, CPF: {aluno['cpf']}, ENDEREÇO: {aluno['endereco']}, NASCIMENTO: {aluno['nascimento']}, ID DO RESPONSÁVEL: {aluno['id_do_responsavel']}")
+      print("*" * 50)
+      print("=" * 50)
+  else:
+    print(Cor.AMARELO + "NENENHUM ALUNO CADASTRADO." + Cor.RESET)
 
-    if option == '1':
-      listar_motoristas()
+def buscar_aluno(id):
+  alunos = ler_json()
+  id_do_aluno = int(id)
 
-    elif option == '2':
-      print("to do")
+  for aluno in alunos:
+    if aluno['id'] == id_do_aluno:
 
-    elif option == '3':
-      go_on = False
-
-      print("ATÉ MAIS!👋🏻")
-      print(cor.CIANO + "USUÁRIO FEZ LOGOUT." + cor.RESET)
-
+      print(f"ID: {aluno['id']}, NOME: {aluno['nome']}, CPF: {aluno['cpf']}, ENDEREÇO: {aluno['endereco']}, NASCIMENTO: {aluno['nascimento']}, ID DO RESPONSÁVEL: {aluno['id_do_responsavel']}")
     else:
-      print(cor.VERMELHO + "OPÇÃO INVÁLIDA" + cor.RESET)
+      print(Cor.AMARELO + "NENHUM ALUNO ENCONTRADO." + Cor.RESET)
+
+def excluir_aluno(id):
+  alunos = ler_json()
+  id_do_aluno = int(id)
+
+  for aluno in alunos:
+    if aluno['id'] == id_do_aluno:
+      alunos.remove(aluno)
+
+      atualizar_json(alunos)
+
+      print(Cor.VERDE + "ALUNO EXCLUÍDO COM SUCESSO!" + Cor.RESET)
+    else:
+      print(Cor.AMARELO + "NENHUM ALUNO ENCONTRADO." + Cor.RESET)

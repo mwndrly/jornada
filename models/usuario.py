@@ -3,8 +3,8 @@ import os
 import json
 import random
 
+# constants
 base_dir = os.path.join(os.path.dirname(__file__), '../data')
-
 json_usuarios = os.path.join(base_dir, 'usuarios.json')
 
 def read_json():
@@ -23,10 +23,10 @@ def autenticar_usuario():
 
   for usuario in usuarios:
     if usuario['email'] == email and usuario['senha'] == senha:
-      return True
+      return usuario
   return False
 
-def cadastrar_usuario(type):
+def cadastrar_usuario(tipo):
   usuarios = read_json()
 
   email = input("DIGITE SEU EMAIL:\n>>> ")
@@ -36,7 +36,7 @@ def cadastrar_usuario(type):
     'id': random.randint(1, 99),
     'email': email,
     'senha': senha,
-    'type': type
+    'tipo': tipo
   }
 
   usuarios.append(usuario)
