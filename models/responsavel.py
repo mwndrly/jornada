@@ -42,6 +42,32 @@ def cadastrar_responsavel(user):
 
   update_json(responsaveis)
 
+def listar_responsaveis():
+  responsaveis = read_json()
+
+  if responsaveis:
+    print(">>>>>>> LISTA DE RESPONSÁVEIS <<<<<<<<")
+
+    for responsavel in responsaveis:
+      print("*" * 50)
+      print(f"NOME: {responsavel['nome']}, CPF: {responsavel['cpf']}, NASCIMENTO: {responsavel['nascimento']}, TELEFONE: {responsavel['telefone']}, ENDEREÇO: {responsavel['endereco']}, EMAIL: {responsavel['email']}")
+      print("*" * 50)
+      print("=" * 50)
+  else:
+    print(cor.AMARELO + "NENENHUM RESPONSÁVEL CADASTRADO." + cor.RESET)
+
+def buscar_responsavel(id):
+  found = False
+  responsavel = read_json()
+
+  for responsavel in responsavel:
+    if responsavel['id'] == id:
+      found = True
+
+      print(f"NOME: {responsavel['nome']}, CPF: {responsavel['cpf']}, NASCIMENTO: {responsavel['nascimento']}, TELEFONE: {responsavel['telefone']}, ENDEREÇO: {responsavel['endereco']}, EMAIL: {responsavel['email']}")
+  if not found:
+    print(cor.AMARELO + "NENHUM RESPONSAVEL ENCONTRADO." + cor.RESET)
+
 def funcionalidades_responsaveis():
   go_on = True
 
@@ -73,6 +99,5 @@ def funcionalidades_responsaveis():
 
       print("ATÉ MAIS!👋🏻")
       print(cor.CIANO + "USUÁRIO FEZ LOGOUT." + cor.RESET)
-
     else:
       print(cor.VERMELHO + "OPÇÃO INVÁLIDA" + cor.RESET)

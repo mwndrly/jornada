@@ -15,6 +15,17 @@ def update_json(response):
   with open(json_usuarios, 'w') as f:
     json.dump(response, f, indent=2)
 
+def autenticar_usuario():
+  usuarios = read_json()
+
+  email = input('DIGITE O EMAIL: ')
+  senha = input('DIGITE A SENHA: ')
+
+  for usuario in usuarios:
+    if usuario['email'] == email and usuario['senha'] == senha:
+      return True
+  return False
+
 def cadastrar_usuario(type):
   usuarios = read_json()
 

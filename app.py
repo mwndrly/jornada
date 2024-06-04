@@ -9,15 +9,6 @@ from models.instituicao import *
 import json
 import os
 
-class cor:
-  VERMELHO = '\033[91m'
-  VERDE = '\033[92m'
-  AMARELO = '\033[93m'
-  AZUL = '\033[94m'
-  MAGENTA = '\033[95m'
-  CIANO = '\033[96m'
-  RESET = '\033[0m'
-
 # Define o diretório base para os arquivos JSON
 base_dir = os.path.join(os.path.dirname(__file__), 'data')
 
@@ -30,20 +21,21 @@ json_motoristas = os.path.join(base_dir, 'motoristas.json')
 json_responsaveis = os.path.join(base_dir, 'responsaveis.json')
 json_instituicoes = os.path.join(base_dir, 'instituicoes.json')
 
+class cor:
+  VERMELHO = '\033[91m'
+  VERDE = '\033[92m'
+  AMARELO = '\033[93m'
+  AZUL = '\033[94m'
+  MAGENTA = '\033[95m'
+  CIANO = '\033[96m'
+  RESET = '\033[0m'
+
 def start_app():
   load_files()
   login()
 
 def load_files():
-  files = [
-    json_usuarios,
-    json_alunos,
-    json_motoristas,
-    json_responsaveis,
-    json_instituicoes
-  ]
-
-  for file in files:
+  for file in [json_usuarios, json_alunos, json_motoristas, json_responsaveis, json_instituicoes]:
     if not os.path.isfile(file):
       with open(file, 'w') as f:
         json.dump([], f)
@@ -58,15 +50,15 @@ def login():
 
   option = input("\n>>> ")
 
-  if option == '1': login()
-
-  elif option == '2': register()
-
+  if option == '1':
+    autenticar_usuario()
+  elif option == '2':
+    registrar_usuario()
   else:
     print(cor.VERMELHO + "OPÇÃO INVÁLIDA" + cor.RESET)
     login()
 
-def register():
+def registrar_usuario():
   print("\nMUITO BEM. VAMOS LÁ:")
   print("\nVOCÊ DESEJA CRIAR UMA CONTA COMO:")
   print("1 - MOTORISTA")
