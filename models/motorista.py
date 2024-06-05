@@ -13,6 +13,7 @@ json_motoristas = os.path.join(base_dir, 'motoristas.json')
 class Cor:
   VERMELHO = '\033[91m'
   AMARELO = '\033[93m'
+  VERDE = '\033[92m'
   RESET = '\033[0m'
 
 def ler_json():
@@ -58,7 +59,7 @@ def listar_motoristas():
 
     for motorista in motoristas:
       print("*" * 50)
-      print(f"NOME: {motorista['nome']}, IDADE: {motorista['idade']}, CPF: {motorista['cpf']}, NASCIMENTO: {motorista['nascimento']}, TELEFONE: {motorista['telefone']}, ENDEREÇO: {motorista['endereco']}, EMAIL: {motorista['email']}")
+      print(f"ID: {motorista['id']}, NOME: {motorista['nome']}, GENERO: {motorista['genero']}, CPF: {motorista['cpf']}, NASCIMENTO: {motorista['nascimento']}, TELEFONE: {motorista['telefone']}, ENDEREÇO: {motorista['endereco']}, EMAIL: {motorista['email']}")
       print("*" * 50)
       print("=" * 50)
   else:
@@ -66,14 +67,16 @@ def listar_motoristas():
 
 def buscar_motorista(id):
   motoristas = ler_json()
+  id_do_motorista = int(id)
 
   if not motoristas:
     print(Cor.AMARELO + "NENHUM MOTORISTA CADASTRADO." + Cor.RESET)
 
   for motorista in motoristas:
-    if motorista['id'] == id:
+    if motorista['id'] == id_do_motorista:
 
-      print(f"NOME: {motorista['nome']}, IDADE: {motorista['idade']}, CPF: {motorista['cpf']}, NASCIMENTO: {motorista['nascimento']}, TELEFONE: {motorista['telefone']}, ENDEREÇO: {motorista['endereco']}, EMAIL: {motorista['email']}")
+      print(Cor.VERDE + ">>>>>>> MOTORISTA ENCOTNRADO <<<<<<<<" + Cor.RESET)
+      print(f"ID: {motorista['id']}, NOME: {motorista['nome']}, GENERO: {motorista['genero']}, CPF: {motorista['cpf']}, NASCIMENTO: {motorista['nascimento']}, TELEFONE: {motorista['telefone']}, ENDEREÇO: {motorista['endereco']}, EMAIL: {motorista['email']}")
     else:
       print(Cor.AMARELO + "NENHUM MOTORISTA ENCONTRADO." + Cor.RESET)
 

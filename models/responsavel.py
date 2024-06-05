@@ -1,6 +1,7 @@
 # models
 from models.aluno import *
 from models.rotas import listar_rotas, buscar_rota
+from models.motorista import listar_motoristas, buscar_motorista
 
 # utils
 import os
@@ -15,16 +16,16 @@ class Cor:
   CIANO = '\033[96m'
   RESET = '\033[0m'
 
-def read_json():
+def ler_json():
   with open(json_responsaveis, 'r') as f:
     return json.load(f)
 
-def update_json(response):
+def atualizar_json(response):
   with open(json_responsaveis, 'w') as f:
     json.dump(response, f, indent=2)
 
 def cadastrar_responsavel(user):
-  responsaveis = read_json()
+  responsaveis = ler_json()
 
   nome = input("DIGITE O NOME:\n>>> ")
   cpf = input("DIGITE O CPF:\n>>> ")
@@ -45,10 +46,10 @@ def cadastrar_responsavel(user):
     'id_usuario': user['id'],
   })
 
-  update_json(responsaveis)
+  atualizar_json(responsaveis)
 
 def listar_responsaveis():
-  responsaveis = read_json()
+  responsaveis = ler_json()
 
   if responsaveis:
     print(">>>>>>> LISTA DE RESPONSÁVEIS <<<<<<<<")
@@ -62,16 +63,17 @@ def listar_responsaveis():
     print(Cor.AMARELO + "NENENHUM RESPONSÁVEL CADASTRADO." + Cor.RESET)
 
 def buscar_responsavel(id):
-  found = False
-  responsavel = read_json()
+  responsaveis = ler_json()
 
-  for responsavel in responsavel:
+  if not responsaveis:
+    print(Cor.AMARELO + "NENHUM MOTORISTA CADASTRADO." + Cor.RESET)
+
+  for responsavel in responsaveis:
     if responsavel['id'] == id:
-      found = True
 
       print(f"NOME: {responsavel['nome']}, CPF: {responsavel['cpf']}, NASCIMENTO: {responsavel['nascimento']}, TELEFONE: {responsavel['telefone']}, ENDEREÇO: {responsavel['endereco']}, EMAIL: {responsavel['email']}")
-  if not found:
-    print(Cor.AMARELO + "NENHUM RESPONSAVEL ENCONTRADO." + Cor.RESET)
+    else:
+      print(Cor.AMARELO + "NENHUM RESPONSAVEL ENCONTRADO." + Cor.RESET)
 
 def funcionalidades_responsaveis(user):
   while True:
@@ -85,30 +87,30 @@ def funcionalidades_responsaveis(user):
     print("7 - BUSCAR ROTA")
     print("8 - LISTAR MOTORISTAS")
     print("9 - BUSCAR MOTORISTA")
-    print("10 - SAIR")
+    print("10 - VOLTAR AO MENU")
 
     option = input("\n>>> ")
 
     if option == '1':
-        cadastrar_aluno(user)
+      cadastrar_aluno(user)
 
     elif option == '2':
-        listar_alunos(user)
+      listar_alunos(user)
 
     elif option == '3':
-        id_do_aluno = input("QUAL O ID DO ALUNO QUE VOCÊ DESEJA BUSCAR?\n>>> ")
+      id_do_aluno = input("QUAL O ID DO ALUNO QUE VOCÊ DESEJA BUSCAR?\n>>> ")
 
-        buscar_aluno(id_do_aluno, user)
+      buscar_aluno(id_do_aluno, user)
 
     elif option == '4':
-        id_do_aluno = input("QUAL O ID DO ALUNO QUE VOCÊ DESEJA EDITAR?\n>>> ")
+      id_do_aluno = input("QUAL O ID DO ALUNO QUE VOCÊ DESEJA EDITAR?\n>>> ")
 
-        atualizar_aluno(id_do_aluno, user)
+      atualizar_aluno(id_do_aluno, user)
 
     elif option == '5':
-        id_do_aluno = input("QUAL O ID DO ALUNO QUE VOCÊ DESEJA EXCLUIR?\n>>> ")
+      id_do_aluno = input("QUAL O ID DO ALUNO QUE VOCÊ DESEJA EXCLUIR?\n>>> ")
 
-        excluir_aluno(id_do_aluno, user)
+      excluir_aluno(id_do_aluno, user)
 
     elif option == '6':
         listar_rotas()
@@ -118,10 +120,15 @@ def funcionalidades_responsaveis(user):
 
       buscar_rota(id_da_rota)
 
-    elif option == '10':
-      print("ATÉ MAIS!👋🏻")
-      print(Cor.CIANO + "USUÁRIO FEZ LOGOUT." + Cor.RESET)
+    elif option == '8':
+      listar_motoristas()
 
+    elif option == '9':
+      id_do_motorista = input("QUAL O ID DO MOTORISTA QUE VOCÊ DESEJA BUSCAR?\n>>> ")
+
+      buscar_motorista(id_do_motorista)
+
+    elif option == '10':
       break
     else:
       print(Cor.VERMELHO + "OPÇÃO INVÁLIDA" + Cor.RESET)
