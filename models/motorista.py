@@ -1,5 +1,5 @@
 # models
-from models.rotas import *
+from models.rota import *
 
 # utils
 import os

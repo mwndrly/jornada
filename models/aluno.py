@@ -20,7 +20,7 @@ def atualizar_json(response):
   with open(json_alunos, 'w') as f:
     json.dump(response, f, indent=2)
 
-def cadastrar_aluno(user):
+def cadastrar_aluno(user = {}):
   alunos = ler_json()
 
   nome = input("DIGITE O NOME:\n>>> ")
@@ -40,13 +40,22 @@ def cadastrar_aluno(user):
   atualizar_json(alunos)
   print(Cor.VERDE + "ALUNO CADASTRADO COM SUCESSO!" + Cor.RESET)
 
-def listar_alunos(user):
+def listar_alunos(user = {}):
   alunos = ler_json()
-  id_do_responsavel = int(user['id'])
+  id_do_responsavel = None
+
+  if user:
+    id_do_responsavel = int(user['id'])
 
   if alunos:
     for aluno in alunos:
-      if aluno['id_do_responsavel'] == id_do_responsavel:
+      if id_do_responsavel and aluno['id_do_responsavel'] == id_do_responsavel:
+        print(">>>>>>> LISTA DE ALUNOS <<<<<<<<")
+        print("*" * 50)
+        print(f"ID: {aluno['id']}, NOME: {aluno['nome']}, CPF: {aluno['cpf']}, ENDEREÇO: {aluno['endereco']}, NASCIMENTO: {aluno['nascimento']}, ID DO RESPONSÁVEL: {aluno['id_do_responsavel']}")
+        print("*" * 50)
+        print("=" * 50)
+      elif not id_do_responsavel:
         print(">>>>>>> LISTA DE ALUNOS <<<<<<<<")
         print("*" * 50)
         print(f"ID: {aluno['id']}, NOME: {aluno['nome']}, CPF: {aluno['cpf']}, ENDEREÇO: {aluno['endereco']}, NASCIMENTO: {aluno['nascimento']}, ID DO RESPONSÁVEL: {aluno['id_do_responsavel']}")
@@ -57,32 +66,41 @@ def listar_alunos(user):
   else:
     print(Cor.AMARELO + "NENENHUM ALUNO CADASTRADO." + Cor.RESET)
 
-def buscar_aluno(id, user):
+def buscar_aluno(id, user = {}):
   alunos = ler_json()
   id_do_aluno = int(id)
-  id_do_responsavel = int(user['id'])
+  id_do_responsavel = None
+
+  if user:
+    id_do_responsavel = int(user['id'])
 
   if not alunos:
       print(Cor.AMARELO + "NENHUM ALUNO CADASTRADO." + Cor.RESET)
 
   for aluno in alunos:
-    if aluno['id'] == id_do_aluno and aluno['id_do_responsavel'] == id_do_responsavel:
+    if aluno['id'] == id_do_aluno and id_do_responsavel and aluno['id_do_responsavel'] == id_do_responsavel:
 
+      print(Cor.VERDE + ">>>>>>> ALUNO ENCOTNRADO <<<<<<<<" + Cor.RESET)
+      print(f"ID: {aluno['id']}, NOME: {aluno['nome']}, CPF: {aluno['cpf']}, ENDEREÇO: {aluno['endereco']}, NASCIMENTO: {aluno['nascimento']}, ID DO RESPONSÁVEL: {aluno['id_do_responsavel']}")
+    elif not id_do_responsavel and aluno['id'] == id_do_aluno:
       print(Cor.VERDE + ">>>>>>> ALUNO ENCOTNRADO <<<<<<<<" + Cor.RESET)
       print(f"ID: {aluno['id']}, NOME: {aluno['nome']}, CPF: {aluno['cpf']}, ENDEREÇO: {aluno['endereco']}, NASCIMENTO: {aluno['nascimento']}, ID DO RESPONSÁVEL: {aluno['id_do_responsavel']}")
     else:
       print(Cor.AMARELO + "NENHUM ALUNO ENCONTRADO." + Cor.RESET)
 
-def atualizar_aluno(id, user):
+def atualizar_aluno(id, user = {}):
   alunos = ler_json()
   id_do_aluno = int(id)
-  id_do_responsavel = int(user['id'])
+  id_do_responsavel = None
+
+  if user:
+    id_do_responsavel = int(user['id'])
 
   if not alunos:
     print(Cor.AMARELO + "NENHUM ALUNO CADASTRADO." + Cor.RESET)
 
   for aluno in alunos:
-    if aluno['id'] == id_do_aluno and aluno['id_do_responsavel'] == id_do_responsavel:
+    if aluno['id'] == id_do_aluno and id_do_responsavel and aluno['id_do_responsavel'] == id_do_responsavel:
       aluno['nome'] = input("DIGITE O NOVO NOME:\n>>> ")
       aluno['cpf'] = input("DIGITE O NOVO CPF:\n>>> ")
       aluno['endereco'] = input("DIGITE O NOVO ENDEREÇO:\n>>> ")
@@ -93,7 +111,7 @@ def atualizar_aluno(id, user):
     else:
       print(Cor.AMARELO + "NENHUM ALUNO ENCONTRADO." + Cor.RESET)
 
-def excluir_aluno(id, user):
+def excluir_aluno(id, user = {}):
   alunos = ler_json()
   id_do_aluno = int(id)
   id_do_responsavel = int(user['id'])
