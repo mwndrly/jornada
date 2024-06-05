@@ -27,7 +27,7 @@ def cadastrar_rota(user):
   chegada = input("DIGITE O PONTO DE CHEGADA:\n>>> ")
 
   rotas.append({
-    'id': random.randint(1, 99),
+    'id': random.randint(1, 1000),
     'partida': partida,
     'chegada': chegada,
     'criada_por': user['id']
@@ -53,6 +53,9 @@ def buscar_rota(id):
   rotas = ler_json()
   id_da_rota = int(id)
 
+  if not rotas:
+      print(Cor.AMARELO + "NENHUMA ROTA CADASTRADA." + Cor.RESET)
+
   for rota in rotas:
     if rota['id'] == id_da_rota:
 
@@ -60,9 +63,12 @@ def buscar_rota(id):
     else:
       print(Cor.AMARELO + "NENHUMA ROTA ENCONTRADA." + Cor.RESET)
 
-def atualizar_rota(id):
+def editar_rota(id):
   rotas = ler_json()
   id_da_rota = int(id)
+
+  if not rotas:
+    print(Cor.AMARELO + "NENHUMA ROTA CADASTRADA." + Cor.RESET)
 
   for rota in rotas:
     if rota['id'] == id_da_rota:
@@ -77,6 +83,9 @@ def atualizar_rota(id):
 def excluir_rota(id):
   rotas = ler_json()
   id_da_rota = int(id)
+
+  if not rotas:
+    print(Cor.AMARELO + "NENHUMA ROTA CADASTRADA." + Cor.RESET)
 
   for rota in rotas:
     if rota['id'] == id_da_rota:
