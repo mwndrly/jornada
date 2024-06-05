@@ -38,6 +38,7 @@ def cadastrar_aluno(user):
   })
 
   atualizar_json(alunos)
+  print(Cor.VERDE + "ALUNO CADASTRADO COM SUCESSO!" + Cor.RESET)
 
 def listar_alunos(user):
   alunos = ler_json()
@@ -46,6 +47,7 @@ def listar_alunos(user):
   if alunos:
     for aluno in alunos:
       if aluno['id_do_responsavel'] == id_do_responsavel:
+        print(">>>>>>> LISTA DE ALUNOS <<<<<<<<")
         print("*" * 50)
         print(f"ID: {aluno['id']}, NOME: {aluno['nome']}, CPF: {aluno['cpf']}, ENDEREÇO: {aluno['endereco']}, NASCIMENTO: {aluno['nascimento']}, ID DO RESPONSÁVEL: {aluno['id_do_responsavel']}")
         print("*" * 50)
@@ -60,9 +62,13 @@ def buscar_aluno(id, user):
   id_do_aluno = int(id)
   id_do_responsavel = int(user['id'])
 
+  if not alunos:
+      print(Cor.AMARELO + "NENHUM ALUNO CADASTRADO." + Cor.RESET)
+
   for aluno in alunos:
     if aluno['id'] == id_do_aluno and aluno['id_do_responsavel'] == id_do_responsavel:
 
+      print(Cor.VERDE + ">>>>>>> ALUNO ENCOTNRADO <<<<<<<<" + Cor.RESET)
       print(f"ID: {aluno['id']}, NOME: {aluno['nome']}, CPF: {aluno['cpf']}, ENDEREÇO: {aluno['endereco']}, NASCIMENTO: {aluno['nascimento']}, ID DO RESPONSÁVEL: {aluno['id_do_responsavel']}")
     else:
       print(Cor.AMARELO + "NENHUM ALUNO ENCONTRADO." + Cor.RESET)
@@ -71,6 +77,9 @@ def atualizar_aluno(id, user):
   alunos = ler_json()
   id_do_aluno = int(id)
   id_do_responsavel = int(user['id'])
+
+  if not alunos:
+    print(Cor.AMARELO + "NENHUM ALUNO CADASTRADO." + Cor.RESET)
 
   for aluno in alunos:
     if aluno['id'] == id_do_aluno and aluno['id_do_responsavel'] == id_do_responsavel:
@@ -88,6 +97,9 @@ def excluir_aluno(id, user):
   alunos = ler_json()
   id_do_aluno = int(id)
   id_do_responsavel = int(user['id'])
+
+  if not alunos:
+    print(Cor.AMARELO + "NENHUM ALUNO CADASTRADO." + Cor.RESET)
 
   for aluno in alunos:
     if aluno['id'] == id_do_aluno and aluno['id_do_responsavel'] == id_do_responsavel:

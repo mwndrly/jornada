@@ -8,6 +8,7 @@ base_dir = os.path.join(os.path.dirname(__file__), '../data')
 json_rotas = os.path.join(base_dir, 'rotas.json')
 
 class Cor:
+  VERMELHO = '\033[91m'
   AMARELO = '\033[93m'
   VERDE = '\033[92m'
   RESET = '\033[0m'
@@ -34,6 +35,7 @@ def cadastrar_rota(user):
   })
 
   atualizar_json(rotas)
+  print(Cor.VERDE + "ROTA CADASTRADA COM SUCESSO!" + Cor.RESET)
 
 def listar_rotas():
   rotas = ler_json()
@@ -43,7 +45,7 @@ def listar_rotas():
 
     for rota in rotas:
       print("*" * 50)
-      print(f"PARTIDA: {rota['partida']}, CHEGADA: {rota['chegada']}, CRIADA POR: {rota['criada_por']}")
+      print(f"ID: {rota['id']}, PARTIDA: {rota['partida']}, CHEGADA: {rota['chegada']}, CRIADA POR: {rota['criada_por']}")
       print("*" * 50)
       print("=" * 50)
   else:
@@ -58,8 +60,8 @@ def buscar_rota(id):
 
   for rota in rotas:
     if rota['id'] == id_da_rota:
-
-      print(f"PARTIDA: {rota['partida']}, CHEGADA: {rota['chegada']}, CRIADA POR: {rota['criada_por']}")
+      print(Cor.VERDE + ">>>>>>> ROTA ENCOTNRADA <<<<<<<<" + Cor.RESET)
+      print(f"ID: {rota['id']}, PARTIDA: {rota['partida']}, CHEGADA: {rota['chegada']}, CRIADA POR: {rota['criada_por']}")
     else:
       print(Cor.AMARELO + "NENHUMA ROTA ENCONTRADA." + Cor.RESET)
 
