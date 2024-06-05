@@ -8,9 +8,8 @@ import os
 import json
 import random
 
-# Define o diretório base para os arquivos JSON
+# constants
 base_dir = os.path.join(os.path.dirname(__file__), '../data')
-
 json_motoristas = os.path.join(base_dir, 'motoristas.json')
 
 class Cor:
@@ -19,16 +18,16 @@ class Cor:
   CIANO = '\033[96m'
   RESET = '\033[0m'
 
-def read_json():
+def ler_json():
   with open(json_motoristas, 'r') as f:
     return json.load(f)
 
-def update_json(response):
+def atualizar_json(response):
   with open(json_motoristas, 'w') as f:
     json.dump(response, f, indent=2)
 
 def cadastrar_motorista(user):
-  motoristas = read_json()
+  motoristas = ler_json()
 
   nome = input("DIGITE O NOME:\n>>> ")
   genero = input("DIGITE O GÊNERO:\n>>> ")
@@ -52,10 +51,10 @@ def cadastrar_motorista(user):
     'id_usuario': user['id']
   })
 
-  update_json(motoristas)
+  atualizar_json(motoristas)
 
 def listar_motoristas():
-  motoristas = read_json()
+  motoristas = ler_json()
 
   if motoristas:
     print(">>>>>>> LISTA DE MOTORISTAS <<<<<<<<")
@@ -70,7 +69,7 @@ def listar_motoristas():
 
 def buscar_motorista(id):
   found = False
-  motoristas = read_json()
+  motoristas = ler_json()
 
   for motorista in motoristas:
     if motorista['id'] == id:

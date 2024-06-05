@@ -1,8 +1,13 @@
+# models
+from models.aluno import *
+from models.rotas import listar_rotas, buscar_rota
+
+# utils
 import os
 import json
 
+# constants
 base_dir = os.path.join(os.path.dirname(__file__), '../data')
-
 json_responsaveis = os.path.join(base_dir, 'responsaveis.json')
 
 class Cor:
@@ -68,36 +73,55 @@ def buscar_responsavel(id):
   if not found:
     print(Cor.AMARELO + "NENHUM RESPONSAVEL ENCONTRADO." + Cor.RESET)
 
-def funcionalidades_responsaveis():
-  go_on = True
-
-  while go_on:
+def funcionalidades_responsaveis(user):
+  while True:
     print("\nFUNCIONALIDADES DO PERFIL RESPONSAVEL:\n")
-    print("1 - BUSCAR ROTA")
-    print("2 - LISTAR ROTAS")
-    print("3 - BUSCAR MOTORISTA")
-    print("4 - LISTAR MOTORISTAS")
-    print("5 - CADASTRAR ALUNO")
-    print("6 - BUSCAR ALUNO")
-    print("7 - EXCLUIR ALUNO")
-    print("8 - SAIR")
+    print("1 - CADASTRAR ALUNO")
+    print("2 - LISTAR ALUNOS")
+    print("3 - BUSCAR ALUNO")
+    print("4 - EDITAR ALUNO")
+    print("5 - EXCLUIR ALUNO")
+    print("6 - LISTAR ROTAS")
+    print("7 - BUSCAR ROTA")
+    print("8 - LISTAR MOTORISTAS")
+    print("9 - BUSCAR MOTORISTA")
+    print("10 - SAIR")
 
     option = input("\n>>> ")
 
-    if option == '1': print("to do")
+    if option == '1':
+        cadastrar_aluno(user)
 
-    elif option == '2': print("to do")
+    elif option == '2':
+        listar_alunos(user)
 
-    elif option == '3': print("to do")
+    elif option == '3':
+        id_do_aluno = input("QUAL O ID DO ALUNO QUE VOCÊ DESEJA BUSCAR?\n>>> ")
 
-    elif option == '4': print("to do")
+        buscar_aluno(id_do_aluno, user)
 
-    elif option == '5': print("to do")
+    elif option == '4':
+        id_do_aluno = input("QUAL O ID DO ALUNO QUE VOCÊ DESEJA EDITAR?\n>>> ")
 
-    elif option == '8':
-      go_on = False
+        atualizar_aluno(id_do_aluno, user)
 
+    elif option == '5':
+        id_do_aluno = input("QUAL O ID DO ALUNO QUE VOCÊ DESEJA EXCLUIR?\n>>> ")
+
+        excluir_aluno(id_do_aluno, user)
+
+    elif option == '6':
+        listar_rotas()
+
+    elif option == '7':
+      id_da_rota = input("QUAL O ID DA ROTA QUE VOCÊ DESEJA BUSCAR?\n>>> ")
+
+      buscar_rota(id_da_rota)
+
+    elif option == '10':
       print("ATÉ MAIS!👋🏻")
       print(Cor.CIANO + "USUÁRIO FEZ LOGOUT." + Cor.RESET)
+
+      break
     else:
       print(Cor.VERMELHO + "OPÇÃO INVÁLIDA" + Cor.RESET)

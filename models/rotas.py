@@ -23,15 +23,13 @@ def atualizar_json(response):
 def cadastrar_rota(user):
   rotas = ler_json()
 
-  partida = input("DIGITE O PONTO DE PARTIDA:\n>>>")
-#   paradas = input("DIGITE A PARADA:\n>>>")
-  chegada = input("DIGITE O PONTO DE CHEGADA:\n>>>")
+  partida = input("DIGITE O PONTO DE PARTIDA:\n>>> ")
+  chegada = input("DIGITE O PONTO DE CHEGADA:\n>>> ")
 
   rotas.append({
     'id': random.randint(1, 99),
     'partida': partida,
     'chegada': chegada,
-    # 'paradas': paradas,
     'criada_por': user['id']
   })
 
@@ -59,6 +57,20 @@ def buscar_rota(id):
     if rota['id'] == id_da_rota:
 
       print(f"PARTIDA: {rota['partida']}, CHEGADA: {rota['chegada']}, CRIADA POR: {rota['criada_por']}")
+    else:
+      print(Cor.AMARELO + "NENHUMA ROTA ENCONTRADA." + Cor.RESET)
+
+def atualizar_rota(id):
+  rotas = ler_json()
+  id_da_rota = int(id)
+
+  for rota in rotas:
+    if rota['id'] == id_da_rota:
+      rota['partida'] = input("DIGITE O NOVO PONTO DE PARTIDA:\n>>> ")
+      rota['chegada'] = input("DIGITE O NOVO PONTO DE CHEGADA:\n>>> ")
+
+      atualizar_json(rotas)
+      print(Cor.VERDE + "ROTA ATUALIZADA COM SUCESSO!" + Cor.RESET)
     else:
       print(Cor.AMARELO + "NENHUMA ROTA ENCONTRADA." + Cor.RESET)
 
