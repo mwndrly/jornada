@@ -1,11 +1,12 @@
 # models
 from models.aluno import *
-from models.rotas import listar_rotas, buscar_rota
+from models.rota import listar_rotas, buscar_rota
 from models.motorista import listar_motoristas, buscar_motorista
 
 # utils
 import os
 import json
+import random
 
 # constants
 base_dir = os.path.join(os.path.dirname(__file__), '../data')
@@ -13,7 +14,8 @@ json_responsaveis = os.path.join(base_dir, 'responsaveis.json')
 
 class Cor:
   VERMELHO = '\033[91m'
-  CIANO = '\033[96m'
+  AMARELO = '\033[93m'
+  VERDE = '\033[92m'
   RESET = '\033[0m'
 
 def ler_json():
@@ -37,6 +39,7 @@ def cadastrar_responsavel(user):
     email = input("DIGITE O EMAIL:\n>>> ")
 
   responsaveis.append({
+    'id': random.randint(1, 1000),
     'nome': nome,
     'cpf': cpf,
     'endereco': endereco,
@@ -56,7 +59,7 @@ def listar_responsaveis():
 
     for responsavel in responsaveis:
       print("*" * 50)
-      print(f"NOME: {responsavel['nome']}, CPF: {responsavel['cpf']}, NASCIMENTO: {responsavel['nascimento']}, TELEFONE: {responsavel['telefone']}, ENDEREÇO: {responsavel['endereco']}, EMAIL: {responsavel['email']}")
+      print(f"ID: {responsavel['id']}, NOME: {responsavel['nome']}, CPF: {responsavel['cpf']}, NASCIMENTO: {responsavel['nascimento']}, TELEFONE: {responsavel['telefone']}, ENDEREÇO: {responsavel['endereco']}, EMAIL: {responsavel['email']}")
       print("*" * 50)
       print("=" * 50)
   else:
@@ -64,16 +67,18 @@ def listar_responsaveis():
 
 def buscar_responsavel(id):
   responsaveis = ler_json()
+  id_do_responsavel = int(id)
 
   if not responsaveis:
-    print(Cor.AMARELO + "NENHUM MOTORISTA CADASTRADO." + Cor.RESET)
+    print(Cor.AMARELO + "NENHUM RESPONSÁVEL CADASTRADO." + Cor.RESET)
 
   for responsavel in responsaveis:
-    if responsavel['id'] == id:
+    if responsavel['id'] == id_do_responsavel:
 
-      print(f"NOME: {responsavel['nome']}, CPF: {responsavel['cpf']}, NASCIMENTO: {responsavel['nascimento']}, TELEFONE: {responsavel['telefone']}, ENDEREÇO: {responsavel['endereco']}, EMAIL: {responsavel['email']}")
+      print(Cor.VERDE + ">>>>>>> RESPONSÁVEL ENCOTNRADO <<<<<<<<" + Cor.RESET)
+      print(f"ID: {responsavel['id']}, NOME: {responsavel['nome']}, CPF: {responsavel['cpf']}, NASCIMENTO: {responsavel['nascimento']}, TELEFONE: {responsavel['telefone']}, ENDEREÇO: {responsavel['endereco']}, EMAIL: {responsavel['email']}")
     else:
-      print(Cor.AMARELO + "NENHUM RESPONSAVEL ENCONTRADO." + Cor.RESET)
+      print(Cor.AMARELO + "NENHUM RESPONSÁVEL ENCONTRADO." + Cor.RESET)
 
 def funcionalidades_responsaveis(user):
   while True:
