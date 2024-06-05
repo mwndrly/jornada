@@ -1,7 +1,5 @@
 # models
 from models.rotas import *
-from models.aluno import buscar_aluno
-from models.instituicao import listar_instituicoes
 
 # utils
 import os
@@ -15,7 +13,6 @@ json_motoristas = os.path.join(base_dir, 'motoristas.json')
 class Cor:
   VERMELHO = '\033[91m'
   AMARELO = '\033[93m'
-  CIANO = '\033[96m'
   RESET = '\033[0m'
 
 def ler_json():
@@ -40,7 +37,7 @@ def cadastrar_motorista(user):
     email = input("DIGITE O EMAIL:\n>>> ")
 
   motoristas.append({
-    'id': random.randint(1, 99),
+    'id': random.randint(1, 1000),
     'nome': nome,
     'cpf': cpf,
     'genero': genero,
@@ -68,16 +65,17 @@ def listar_motoristas():
     print(Cor.AMARELO + "NENENHUM MOTORISTA CADASTRADO." + Cor.RESET)
 
 def buscar_motorista(id):
-  found = False
   motoristas = ler_json()
+
+  if not motoristas:
+    print(Cor.AMARELO + "NENHUM MOTORISTA CADASTRADO." + Cor.RESET)
 
   for motorista in motoristas:
     if motorista['id'] == id:
-      found = True
 
       print(f"NOME: {motorista['nome']}, IDADE: {motorista['idade']}, CPF: {motorista['cpf']}, NASCIMENTO: {motorista['nascimento']}, TELEFONE: {motorista['telefone']}, ENDEREÇO: {motorista['endereco']}, EMAIL: {motorista['email']}")
-  if not found:
-    print(Cor.AMARELO + "NENHUM MOTORISTA ENCONTRADO." + Cor.RESET)
+    else:
+      print(Cor.AMARELO + "NENHUM MOTORISTA ENCONTRADO." + Cor.RESET)
 
 def funcionalidades_motoristas(user):
   while True:
@@ -87,7 +85,7 @@ def funcionalidades_motoristas(user):
     print("3 - BUSCAR ROTA")
     print("4 - EDITAR ROTA")
     print("5 - EXCLUIR ROTA")
-    print("6 - SAIR")
+    print("6 - V0LTAR AO MENU")
 
     option = input("\n>>> ")
 
@@ -105,7 +103,7 @@ def funcionalidades_motoristas(user):
     elif option == '4':
       id_da_rota = input("QUAL O ID DA ROTA QUE VOCÊ DESEJA EDITAR?\n>>> ")
 
-      # editar_rota(id_da_rota)
+      editar_rota(id_da_rota)
 
     elif option == '5':
       id_da_rota = input("QUAL O ID DA ROTA QUE VOCÊ DESEJA DELETAR?\n>>> ")
@@ -113,9 +111,6 @@ def funcionalidades_motoristas(user):
       excluir_rota(id_da_rota)
 
     elif option == '6':
-      print("ATÉ MAIS!👋🏻")
-      print(Cor.CIANO + "USUÁRIO FEZ LOGOUT." + Cor.RESET)
-
       break
     else:
       print(Cor.VERMELHO + "OPÇÃO INVÁLIDA" + Cor.RESET)

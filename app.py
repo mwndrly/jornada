@@ -48,6 +48,9 @@ def iniciar_aplicacao():
       login()
     elif opcao == '2':
       registrar_usuario()
+    elif opcao == '3':
+      print("ATÉ MAIS!👋🏻")
+      break
     else:
       print(Cor.VERMELHO + "OPÇÃO INVÁLIDA" + Cor.RESET)
 
@@ -57,6 +60,7 @@ def exibir_menu_inicial():
   print("SELECIONE O QUE VOCÊ DESEJA:")
   print("1 - ENTRAR")
   print("2 - CADASTRAR CONTA")
+  print("3 - SAIR")
   print("=" * 55 + Cor.RESET)
 
 def login():
